@@ -17,12 +17,6 @@ import XCTest
 @testable import CSQLite
 
 final class CSQLiteTests: XCTestCase {
-	override class func setUp() {
-		super.setUp()
-		// It's necessary to call sqlite3_initialize() since SQLITE_OMIT_AUTOINIT is defined
-		XCTAssertEqual(sqlite3_initialize(), SQLITE_OK)
-	}
-
 	func testInsert() {
 		var db: OpaquePointer?
 		XCTAssertEqual(sqlite3_open_v2(":memory:", &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nil), SQLITE_OK)
@@ -96,20 +90,6 @@ final class CSQLiteTests: XCTestCase {
 		XCTAssertEqual(sqlite3_close(db), SQLITE_OK)
 	}
 
-	func testMathFunctions() {
-		var db: OpaquePointer?
-		XCTAssertEqual(sqlite3_open_v2(":memory:", &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nil), SQLITE_OK)
-
-		var stmt: OpaquePointer?
-		XCTAssertEqual(sqlite3_prepare_v2(db, "select pi();", -1, &stmt, nil), SQLITE_OK)
-
-		XCTAssertEqual(sqlite3_step(stmt), SQLITE_ROW)
-		XCTAssertLessThan(sqlite3_column_double(stmt, 0), 4)
-
-		XCTAssertEqual(sqlite3_finalize(stmt), SQLITE_OK)
-		XCTAssertEqual(sqlite3_close(db), SQLITE_OK)
-	}
-
 	func testRTree() {
 		var db: OpaquePointer?
 		XCTAssertEqual(sqlite3_open_v2(":memory:", &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nil), SQLITE_OK)
@@ -122,18 +102,6 @@ final class CSQLiteTests: XCTestCase {
 
 		XCTAssertEqual(sqlite3_step(stmt), SQLITE_ROW)
 		XCTAssertEqual(sqlite3_column_int64(stmt, 0), 28269)
-
-		XCTAssertEqual(sqlite3_finalize(stmt), SQLITE_OK)
-		XCTAssertEqual(sqlite3_close(db), SQLITE_OK)
-	}
-
-	func testStmtVtab() {
-		var db: OpaquePointer?
-		XCTAssertEqual(sqlite3_open_v2(":memory:", &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nil), SQLITE_OK)
-
-		var stmt: OpaquePointer?
-		XCTAssertEqual(sqlite3_prepare_v2(db, "select * from sqlite_stmt;", -1, &stmt, nil), SQLITE_OK)
-		XCTAssertEqual(sqlite3_step(stmt), SQLITE_ROW)
 
 		XCTAssertEqual(sqlite3_finalize(stmt), SQLITE_OK)
 		XCTAssertEqual(sqlite3_close(db), SQLITE_OK)

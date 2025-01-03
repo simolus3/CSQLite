@@ -18,17 +18,9 @@
 
 import PackageDescription
 
-// For pre-update hook support:
-//  - Uncomment lines containing `SQLITE_ENABLE_PREUPDATE_HOOK`
-//
-// For session support:
-//  - Uncomment lines containing `SQLITE_ENABLE_PREUPDATE_HOOK`
-//  - Uncomment lines containing `SQLITE_ENABLE_SESSION`
-
 let package = Package(
 	name: "CSQLite",
 	products: [
-		// Products define the executables and libraries a package produces, making them visible to other packages.
 		.library(
 			name: "CSQLite",
 			targets: [
@@ -36,46 +28,32 @@ let package = Package(
 			]),
 	],
 	targets: [
-		// Targets are the basic building blocks of a package, defining a module or a test suite.
-		// Targets can depend on other targets in this package and products from dependencies.
 		.target(
 			name: "CSQLite",
 			cSettings: [
-				// Compile-time options
-				// https://sqlite.org/compile.html#recommended_compile_time_options
-				.define("SQLITE_DQS", to: "0"),
-				.define("SQLITE_THREADSAFE", to: "0"),
-				.define("SQLITE_DEFAULT_MEMSTATUS", to: "0"),
-				.define("SQLITE_DEFAULT_WAL_SYNCHRONOUS", to: "1"),
-				.define("SQLITE_LIKE_DOESNT_MATCH_BLOBS"),
-				.define("SQLITE_MAX_EXPR_DEPTH", to: "0"),
+				// Note: Keep in sync with https://github.com/simolus3/sqlite-native-libraries/blob/master/sqlite3-native-library/cpp/CMakeLists.txt
+				.define("SQLITE_ENABLE_DBSTAT_VTAB"),
+				.define("SQLITE_ENABLE_FTS5"),
+				.define("SQLITE_ENABLE_RTREE"),
+				.define("SQLITE_DQS=0"),
+				.define("SQLITE_DEFAULT_MEMSTATUS=0"),
+				.define("SQLITE_TEMP_STORE=2"),
+				.define("SQLITE_MAX_EXPR_DEPTH=0"),
+				.define("SQLITE_STRICT_SUBTYPE=1"),
+				.define("SQLITE_OMIT_AUTHORIZATION"),
 				.define("SQLITE_OMIT_DECLTYPE"),
 				.define("SQLITE_OMIT_DEPRECATED"),
 				.define("SQLITE_OMIT_PROGRESS_CALLBACK"),
 				.define("SQLITE_OMIT_SHARED_CACHE"),
+				.define("SQLITE_OMIT_TCL_VARIABLE"),
+				.define("SQLITE_OMIT_TRACE"),
 				.define("SQLITE_USE_ALLOCA"),
-				.define("SQLITE_OMIT_AUTOINIT"),
-				.define("SQLITE_STRICT_SUBTYPE", to: "1"),
-				// Platform configuration
-				// https://sqlite.org/compile.html#_platform_configuration
-				.define("HAVE_ISNAN", to: "1"),
-				.define("HAVE_UTIME", to: "1"),
-				// Features
-				// https://sqlite.org/compile.html#_options_to_enable_features_normally_turned_off
-//				.define("SQLITE_ENABLE_COLUMN_METADATA"),
-				.define("SQLITE_ENABLE_FTS5"),
-//				.define("SQLITE_ENABLE_GEOPOLY"),
-//				.define("SQLITE_ENABLE_ICU"),
-				.define("SQLITE_ENABLE_MATH_FUNCTIONS"),
-//				.define("SQLITE_ENABLE_PREUPDATE_HOOK"),
-				.define("SQLITE_ENABLE_RTREE"),
-//				.define("SQLITE_ENABLE_SESSION"),
-				.define("SQLITE_ENABLE_SNAPSHOT"),
-				.define("SQLITE_ENABLE_STMTVTAB"),
-				.define("SQLITE_ENABLE_STAT4"),
-				// For statically linking extensions
-				// https://sqlite.org/loadext.html#statically_linking_a_run_time_loadable_extension
-				.define("SQLITE_CORE", to: "1"),
+				.define("SQLITE_UNTESTABLE"),
+				.define("SQLITE_HAVE_ISNAN"),
+				.define("SQLITE_HAVE_LOCALTIME_R"),
+				.define("SQLITE_HAVE_LOCALTIME_S"),
+				.define("SQLITE_HAVE_MALLOC_USABLE_SIZE"),
+				.define("SQLITE_HAVE_STRCHRNUL"),
 			],
 			linkerSettings: [
 				.linkedLibrary("m"),
