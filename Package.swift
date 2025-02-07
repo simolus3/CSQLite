@@ -55,7 +55,7 @@ let package = Package(
 				.define("SQLITE_HAVE_MALLOC_USABLE_SIZE"),
 				.define("SQLITE_HAVE_STRCHRNUL"),
 				// Only the apple toolchains emit this error when compiling sqlite3 for some reason...
-				//.unsafeFlags(["-Wno-ambiguous-macro"])
+				.unsafeFlags(["-Wno-ambiguous-macro"])
 			],
 			linkerSettings: [
 				.linkedLibrary("m"),
