@@ -35,6 +35,7 @@ let package = Package(
 				.define("SQLITE_ENABLE_DBSTAT_VTAB"),
 				.define("SQLITE_ENABLE_FTS5"),
 				.define("SQLITE_ENABLE_RTREE"),
+				.define("SQLITE_ENABLE_MATH_FUNCTIONS"),
 				.define("SQLITE_DQS=0"),
 				.define("SQLITE_DEFAULT_MEMSTATUS=0"),
 				.define("SQLITE_TEMP_STORE=2"),

@@ -106,4 +106,19 @@ final class CSQLiteTests: XCTestCase {
 		XCTAssertEqual(sqlite3_finalize(stmt), SQLITE_OK)
 		XCTAssertEqual(sqlite3_close(db), SQLITE_OK)
 	}
+
+	func testMath() {
+		var db: OpaquePointer?
+		XCTAssertEqual(sqlite3_open_v2(":memory:", &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nil), SQLITE_OK)
+
+		var stmt: OpaquePointer?
+		XCTAssertEqual(sqlite3_prepare_v2(db, "SELECT cos(pi())", -1, &stmt, nil), SQLITE_OK)
+
+		XCTAssertEqual(sqlite3_step(stmt), SQLITE_ROW)
+		let u = sqlite3_column_int(stmt, 0)
+		XCTAssertEqual(u, -1)
+
+		XCTAssertEqual(sqlite3_finalize(stmt), SQLITE_OK)
+		XCTAssertEqual(sqlite3_close(db), SQLITE_OK)
+	}
 }
