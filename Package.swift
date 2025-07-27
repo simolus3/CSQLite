@@ -55,6 +55,8 @@ let package = Package(
 				.define("SQLITE_HAVE_LOCALTIME_S"),
 				.define("SQLITE_HAVE_MALLOC_USABLE_SIZE"),
 				.define("SQLITE_HAVE_STRCHRNUL"),
+				.define("SQLITE_ENABLE_SESSION"),
+				.define("SQLITE_ENABLE_PREUPDATE_HOOK"),
 				// Only the apple toolchains emit this error when compiling sqlite3 for some reason...
 				.unsafeFlags(["-Wno-ambiguous-macro"])
 			],
