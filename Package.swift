@@ -23,6 +23,9 @@ let package = Package(
 	products: [
 		.library(
 			name: "CSQLite",
+			// To avoid conflicts with other libraries potentially linking SQLite,
+			// build the CSQLite framework as a dynamic library.
+			type: .dynamic,
 			targets: [
 				"CSQLite",
 			]),
